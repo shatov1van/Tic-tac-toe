@@ -5,9 +5,12 @@ from gameparts.exceptions import FieldIndexError
 from gameparts.exceptions import CellOccupiedError
 
 def save_result(text: str):
-    file = open('results.txt', 'a', encoding='utf-8')
-    file.write(text + '\n')
-    file.close()
+    # Контекстный менеджер — это конструкция(with/as), которая во время работы программы создаёт 
+    # определённым образом настроенную среду («контекст»), где будет выполняться заданный код.
+    # Контекстный менеджер полезен в тех случаях, когда перед выполнением 
+    # некоторых операций нужно подготовиться, а после — «прибраться».
+    with open('results.txt', 'a', encoding='utf-8') as f:
+        f.write(text + '\n')
 
 def main():
     # Создать игровое поле - объект класса Board.
