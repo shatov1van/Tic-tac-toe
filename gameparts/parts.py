@@ -18,6 +18,28 @@ class Board:
             print('|'.join(row))
             print('-' * 5)
 
+    # Метод для проверки заполненности поля
+    def is_board_full(self):
+        for i in range(self.field_size):
+            # А потом по всем столбцам.
+            for j in range(self.field_size):
+                # Если находит свободную ячейку...
+                if self.board[i][j] == ' ':
+                    # ...игра продолжается.
+                    return False
+        # Иначе - ничья!
+        return True
+
+    # Этот метод определяет победу
+    def check_win(self, player):
+        for i in range(self.field_size):
+            if (all([self.board[i][j] == player for j in range(self.field_size)]) or
+                all([self.board[j][i] == player for j in range(self.field_size)])):
+                return True
+
+        return all([self.board[i][i] == player for i in range(self.field_size)]) or all([self.board[i][self.field_size - 1 - i] == player for i in range(self.field_size)])
+
+    # Метод для печати объекта класса Board
     def __str__(self):
         return ('Объект игрового поля размером '
         f'{self.field_size}x{self.field_size}')
