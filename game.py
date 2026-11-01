@@ -1,6 +1,7 @@
 from inspect import getsource, isfunction, ismethod
 
 from gameparts import Board
+from gameparts.exceptions import FieldIndexError
 
 
 def main():
@@ -16,8 +17,37 @@ def main():
     game.display()
     print(game) # Выводит строковое представление объекта game.
 
-# if __name__ == "__main__":
-#   main()
+    print('----------New Board------------')
+    game2 = Board()
+
+    while True:
+        try:
+            row = int(input('Введите номер строки: '))
+            if row < 0 or row > game.field_size:
+                raise FieldIndexError # raise FieldIndexError('Свой новый текст')
+            
+            col = int(input('Введите номер столбца: '))
+            if col < 0 or col > game.field_size:
+                raise FieldIndexError
+            
+        except FieldIndexError:
+            print(f'Значение должно быть неотрицательным и больше {game.field_size}')
+            print('Введите корретные координаты')
+            continue
+
+        except ValueError:
+            print('Буквы вводить нельзя. Только числа.')
+            print('Пожалуйста, введите значения для строки и столбца заново.')
+            continue
+
+        else:
+            break
+
+    game2.make_move(row, col, 'X')
+    game2.display()
+
+if __name__ == "__main__":
+    main()
 
 # Интроспекция — способность программы исследовать свои собственные структуры и объекты во время выполнения.
 # Основные функции и атрибуты для получения информации об объектах:
@@ -35,34 +65,34 @@ def main():
 # Это особенно полезно в языках с динамической типизацией, таких как Python, 
 # где о типах объектов ничего не известно до момента выполнения программы.
 
-# Как узнать тип объекта
-game = Board()
-print(type(game))
-print(type(game) is Board)
-print(type(game) == Board)
-print(type(game) == int)
+# # Как узнать тип объекта
+# game = Board()
+# print(type(game))
+# print(type(game) is Board)
+# print(type(game) == Board)
+# print(type(game) == int)
 
-# Определить, принадлежит ли экземпляр к определённому классу, можно и через функцию isinstance()
-print(isinstance(game, Board)) # Применение isinstance() считается лучшей практикой.
-print(game.__class__)
+# # Определить, принадлежит ли экземпляр к определённому классу, можно и через функцию isinstance()
+# print(isinstance(game, Board)) # Применение isinstance() считается лучшей практикой.
+# print(game.__class__)
 
-# Функция dir()
-print(dir(game)) # Выводит список всех атрибутов и методов объекта game.
+# # Функция dir()
+# print(dir(game)) # Выводит список всех атрибутов и методов объекта game.
 
-# Этим списком можно воспользоваться для того, чтобы узнать, 
-# есть ли у объекта нужный атрибут или метод. 
-# Для этого обычно используется оператор in, также есть hasattr.
-print('__str__' in dir(game))
-print(hasattr(game, '__str__'))
+# # Этим списком можно воспользоваться для того, чтобы узнать, 
+# # есть ли у объекта нужный атрибут или метод. 
+# # Для этого обычно используется оператор in, также есть hasattr.
+# print('__str__' in dir(game))
+# print(hasattr(game, '__str__'))
 
-# Словарь __dict__
-print(game.__class__.__dict__) # Выводит словарь атрибутов и методов класса Board.
-print(game.__dict__) # Содержит словарь всех атрибутов экземпляра, что позволяет просматривать и изменять их.
+# # Словарь __dict__
+# print(game.__class__.__dict__) # Выводит словарь атрибутов и методов класса Board.
+# print(game.__dict__) # Содержит словарь всех атрибутов экземпляра, что позволяет просматривать и изменять их.
 
-# Функция inspect.getsource(object)
-print(getsource(Board)) # Выводит исходный код(именно все строки кода функции, класса и т.п.) класса Board.
+# # Функция inspect.getsource(object)
+# print(getsource(Board)) # Выводит исходный код(именно все строки кода функции, класса и т.п.) класса Board.
 
-# Функции inspect.isfunction(object) и inspect.ismethod(object)
-print(isfunction(game.display)) # Проверяет, является ли объект обычной функцией.
-print(ismethod(game.display)) # Проверяет, является ли объект методом.
+# # Функции inspect.isfunction(object) и inspect.ismethod(object)
+# print(isfunction(game.display)) # Проверяет, является ли объект обычной функцией.
+# print(ismethod(game.display)) # Проверяет, является ли объект методом.
 
